@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Emotion detection web app</title>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+</head>
+<body>
+	<h1>Emotion detection web app</h1>
+	<p>Press the buttons below to start and stop the emotion detection:</p>
+	<button id="start_button">Start detection</button>
+	<button id="stop_button" disabled>Stop detection</button>
+	<br><br>
+	<div id="result_container"></div>
+
+	<script>
+		$(document).ready(function() {
+			$('#start_button').click(function() {
+				$.post('/start_detection', function(data) {
+					$('#result_container').text('Aggregated dominant emotion: ' + data);
+					$('#stop_button').prop('disabled', false);
+					$('#start_button').prop('disabled', true);
+				});
+			});
+
+			$('#stop_button').click(function() {
+				$.post('/stop_detection', function(data) {
+					$('#stop_button').prop('disabled', true);
+					$('#start_button').prop('disabled', false);
+				});
+			});
+		});
+	</script>
+</body>
+</html>
